@@ -1,44 +1,29 @@
-# Getting Started #
+# README #
 
-These steps will get this sample application running for you using DigitalOcean.
+DigitalOcean apps project customized to use PHP docker image which would allow changing the PHP version for the DigitalOcean app_platform. The default PHP version for DigitalOcean app platform is 7.4 which is not suitable for some clients
 
-**Note: Following these steps will result in charges for the use of DigitalOcean services**
+## Usage
 
-## Requirements
+* Fork this repo into your open Github account.
+* Register DigitalOcean app platform. See https://github.com/digitalocean/sample-dockerfile for detailed guide on doing that
+* Change the PHP verison docker image inside the Dockerfile. Current version is `php:7.1.20-apache`. Refer to https://hub.docker.com/_/php?tab=tags for more available PHP images
+* Change the ioncube version in the Dockerfile to match the PHP image version. See line 31 of the Dockerfile
+* Deploy to DigitalOcean using the button below:
 
-* You need a DigitalOcean account. If you don't already have one, you can sign up at https://cloud.digitalocean.com/registrations/new
+ [![Deploy to DO](https://mp-assets1.sfo2.digitaloceanspaces.com/deploy-to-do/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/valuko/sample-dockerfile/tree/main)
 
-## Forking the Sample App Source Code
+## Customization
 
-To use all the features of App Platform, you need to be running against your own copy of this application. To make a copy, click the Fork button above and follow the on-screen instructions. In this case, you'll be forking this repo as a starting point for your own app (see [Github documentation](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo) to learn more about forking repos.
+You can app custom PHP extensions by adding them in the Dockerfile build steps. Add a new extension by adding the following line: `RUN docker-php-ext-install <extension-name>`
 
-After forking the repo, you should now be viewing this README in your own github org (e.g. `https://github.com/<your-org>/sample-dockerfile`)
+You can also customize the php.ini by editing the php.ini file in config/php. This custom php.ini will be loaded when the project is deployed
 
-**Note:** You can skip forking this repo and select a sample app from the app creation page, however do notice that certain features will be disabled.
+### Enabling SSL
 
-## Deploying the App ##
+You can enable SSL by adding the SSL vhost configuration in the file `config/php/vhosts/default.conf`. You will need to configure a vhost to listen on port 443 and configure the SSL certificates.
 
-Click this button to deploy the app to the DigitalOcean App Platform.
+I advise that you consider using Cloudflare instead for SSL proxying to your project
 
- [![Deploy to DO](https://mp-assets1.sfo2.digitaloceanspaces.com/deploy-to-do/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/digitalocean/sample-dockerfile/tree/main)
+## Extra notes
 
-## Making Changes to Your App ##
-
-As long as you left the default Autodeploy option enabled when you first launched this app, you can now make code changes and see them automatically reflected in your live application. During these automatic deployments, your application will never pause or stop serving request because the App Platform offers zero-downtime deployments.
-
-## Learn More ##
-
-You can learn more about the App Platform and how to manage and update your application at https://www.digitalocean.com/docs/apps/.
-
-
-## Deleting the App #
-
-When you no longer need this sample application running live, you can delete it by following these steps:
-1. Visit the Apps control panel at https://cloud.digitalocean.com/apps
-1. Navigate to the sample-dockerfile app
-1. Choose "Settings"->"Destroy"
-
-This will delete the app and destroy any underlying DigitalOcean resources
-
-**Note: If you don't delete your app, charges for the use of DigitalOcean services will continue to accrue.**
-
+When deploying your project to DigitalOcean, select `main` as the branch instead of `master`. `master` branches are being replaced by `main` going forward
