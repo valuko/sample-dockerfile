@@ -14,7 +14,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 # Install xdebug
 RUN pecl install xdebug-2.5.0
-RUN docker-php-ext-enable xdebug mcrypt pdo_mysql mysqli curl tokenizer json zip mbstring
+# RUN docker-php-ext-enable mysqli pdo pdo_mysql xdebug curl tokenizer json zip mbstring
+RUN docker-php-ext-install pdo_mysql 
+RUN docker-php-ext-install mysqli
+RUN docker-php-ext-install zip
 
 # Enable apache modules
 RUN a2enmod rewrite headers ssl
